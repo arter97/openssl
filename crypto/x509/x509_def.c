@@ -8,6 +8,7 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include "internal/cryptlib.h"
 #include <openssl/crypto.h>
 #include <openssl/x509.h>
@@ -24,12 +25,12 @@ const char *X509_get_default_cert_area(void)
 
 const char *X509_get_default_cert_dir(void)
 {
-    return X509_CERT_DIR;
+    return getenv("OPENSSL_CERT_DIR");
 }
 
 const char *X509_get_default_cert_file(void)
 {
-    return X509_CERT_FILE;
+    return getenv("OPENSSL_CERT_FILE");
 }
 
 const char *X509_get_default_cert_dir_env(void)
