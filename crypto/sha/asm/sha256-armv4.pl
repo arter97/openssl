@@ -595,7 +595,18 @@ sha256_block_data_order_armv8:
 	adr	$Ktbl,.LARMv8
 	sub	$Ktbl,$Ktbl,#.LARMv8-K256
 # else
+# ifdef __clang__
+	@ This code may execute at any random address,
+	@ so using pc-relative to calculating $Ktbl.
+	push	{$len}
+	adr	$Ktbl,.LARMv8
+	ldr	$len,=K256
+	sub	$len,$Ktbl,$len
+	sub	$Ktbl,$Ktbl,$len
+	pop	{$len}
+# else
 	adrl	$Ktbl,K256
+# endif
 # endif
 	add	$len,$inp,$len,lsl#6	@ len to point at the end of inp
 
